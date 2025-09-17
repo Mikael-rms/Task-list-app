@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AddTask from "./components/AddTask";
 import Tasks from "./components/tasks";
 
 function App(){
@@ -23,13 +22,29 @@ function App(){
       title: "Estudar MongoDB",
       description: "Estudar MongoDB até o fim do curso",
       isCompleted: false
-    }]);
+    }])
+
+function onTaskClick(taskId){
+  const newTasks = tasks.map(task => {
+    if (task.id === taskId){
+      return {...task, isCompleted: !task.isCompleted}
+    }
+
+    return task;
+  })
+  setTasks(newTasks);
+}
+
+function onDeleteTask(taskId){
+  const newTasks = tasks.filter(task => task.id !== taskId);
+  setTasks(newTasks);
+}
 
   return (
     <div className="w-screen h-screen bg-slate-500 flex justify-center p-6">
         <div className="w-[500px]">
-        <h1 className="text-3xl text-slate-100 font-bold text-center">Gerenciador de Tarefas</h1>
-        <Tasks tasks = {tasks} />
+        <h1 className="text-3xl m-8 text-slate-100 font-bold text-center">Gerenciador de Tarefas</h1>
+        <Tasks tasks = {tasks} onTaskClick={onTaskClick} onDeleteTask={onDeleteTask}/>
         </div>
     </div>
   )
